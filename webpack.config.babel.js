@@ -1,7 +1,7 @@
 // @flow
 
 import HtmlWebPackPlugin from 'html-webpack-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
@@ -88,9 +88,14 @@ const conf = {
   ],
   optimization: {
     minimize: true,
-    minimizer: [new UglifyJsPlugin(/* {
-      include: /\.js$/
-    } */)],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          ecma: 6,
+        },
+      }),
+    ],
   },
   devServer: {
     historyApiFallback: true,
