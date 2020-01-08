@@ -12,4 +12,4 @@ With:
 - Redux Thunk
 - Styled Components
 
-+ Babel (ES6+), Flow, Eslint (Airbnb), Prettier and Webpack
+Includes: Babel (ES6+), Flow, Eslint (Airbnb), Prettier and Webpack
