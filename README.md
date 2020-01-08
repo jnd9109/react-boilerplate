@@ -13,4 +13,5 @@ With:
 - Styled Components
 
 Includes: Babel (ES6+), Flow, Eslint (Airbnb), Prettier and Webpack
+
 Started with Yarn
