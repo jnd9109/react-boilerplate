@@ -1,33 +1,37 @@
 // @flow
 
 import React, { Fragment, Component } from 'react';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
+import type { Action, ThunkAction, PromiseAction } from 'redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import reducers from '../reducers';
 import routes from '../routes';
 import Loading from './shared/Loading';
+import { handleSetLoading } from '../actions/loading';
 
 type Props = {
   i18n: {
     language: string,
     changeLanguage(lang: string): void,
   },
-};
-
-type State = {
+  dispatch(action: Action | ThunkAction | PromiseAction): any,
   loading: boolean,
 };
 
-class App extends Component<Props, State> {
-  state = {
-    loading: true,
-  };
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
+
+class App extends Component<Props> {
   componentDidMount() {
     const params = new URLSearchParams(window.location.search);
-    const { i18n } = this.props;
+    const { i18n, dispatch } = this.props;
     const { language } = i18n;
 
-    this.setLoading(false);
+    dispatch(handleSetLoading(true));
   }
 
   changeLanguage = (lang: string) => {
@@ -35,13 +39,8 @@ class App extends Component<Props, State> {
     i18n.changeLanguage(lang);
   };
 
-  setLoading = (loading: boolean = true): void => {
-    this.setState({ loading });
-  };
-
   render() {
-    const { loading } = this.state;
-    const { setLoading } = this;
+    const { loading } = this.props;
 
     return (
       <Fragment>
@@ -53,9 +52,7 @@ class App extends Component<Props, State> {
                 key={path}
                 exact={exact}
                 path={path}
-                render={props => (
-                  <C {...props} {...rest} setLoading={setLoading} />
-                )}
+                render={props => <C {...props} {...rest} />}
               />
             ))}
             <Route render={() => <Redirect to="/" />} />
@@ -66,4 +63,18 @@ class App extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(App);
+const mapStateToProps = ({ loading }) => ({
+  loading,
+});
+
+const ConnectedApp = withTranslation()(connect(mapStateToProps)(App));
+
+function ProvidedApp() {
+  return (
+    <Provider store={store}>
+      <ConnectedApp />
+    </Provider>
+  );
+}
+
+export default ProvidedApp;

@@ -41,15 +41,7 @@ function Loading() {
   return (
     <Wrapper>
       <LoadingContainer>
-        <div
-          style={{
-            width: 25,
-            height: 25,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <div style={{ width: 25, height: 25 }}>
           <Lottie options={loadingOptions} width="auto" height="auto" />
         </div>
       </LoadingContainer>
