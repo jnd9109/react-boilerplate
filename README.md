@@ -1,2 +1,14 @@
 # react-boilerplate
-React boilerplate with extra modules
+React boilerplate with:
+
+- Axios
+- i18next
+- JS Cookie
+- Moment
+- QueryString
+- React Animations
+- React Lottie
+- React Router DOM
+- Styled Components
+
++ Babel (ES6+), Flow, Eslint (Airbnb), Prettier and Webpack
