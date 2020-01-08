@@ -1,5 +1,5 @@
-# react-boilerplate
-React boilerplate with:
+#  React/Redux Boilerplate
+With:
 
 - Axios
 - i18next
